@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Dossier: The Tsalikov Breach</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Custom styles for contenteditable focus */
+        [contenteditable]:focus {
+            outline: 2px solid #3b82f6; /* blue-500 */
+            border-radius: 4px;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+        }
+    </style>
+</head>
+<body class="bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 p-4 sm:p-6 lg:p-8">
+
+    <div class="max-w-2xl mx-auto">
+        <!-- Header -->
+        <div class="mb-6 text-center">
+            <h1 class="text-3xl sm:text-4xl font-bold text-gray-800 dark:text-white">The Tsalikov iPhone Breach</h1>
+            <p class="mt-2 text-lg text-gray-600 dark:text-gray-400">An Interactive Dossier</p>
+            <p class="mt-1 text-sm text-gray-500">Click on any text to edit it directly.</p>
+        </div>
+
+        <!-- Copy to Clipboard Button -->
+        <div class="flex justify-center mb-6">
+            <button id="copyButton" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-lg shadow-md transition-transform transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
+                Copy Full Text
+            </button>
+            <div id="copy-feedback" class="text-green-500 ml-4 py-2 font-medium" style="display: none;">Copied!</div>
+        </div>
+
+
+        <!-- Thread Container -->
+        <div id="thread-container" class="space-y-1">
+            <!-- Posts will be injected here by JavaScript -->
+        </div>
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Data for the thread posts, taken from your original document
+            const posts = [
+                {
+                    author: "@dossier_center",
+                    handle: "dossier_center",
+                    avatar: "https://placehold.co/48x48/1f2937/ffffff?text=DC",
+                    content: "Apple warned Russia's Deputy Defense Minister his iPhone was compromised by state-sponsored hackers.<br><br>He kept using it anyway. Including in CLASSIFIED MEETINGS<br><br>New investigation by @dossier_center reveals catastrophic security breach at the heart of Putin's war machine"
+                },
+                {
+                    content: "On June 22, 2023, Ruslan Tsalikov-the second most powerful man in Russia's defense ministry-got an urgent message from California. Apple warned him that hackers backed by a foreign government were trying to compromise his iPhone linked to personal email ruslantsalikov@ya.ru"
+                },
+                 {
+                    content: "The timing couldn't be worse. Ukraine was counterattacking under Bakhmut. Russian forces were advancing near Kupyansk, And the very next day, Prigozhin would launch his march on Moscow, it's likely that Tsalikov didn't have time to properly respond to such a warning. Apple has been sending such warnings since 2019. They may indicate an attack by spy software like Pegasus, which is typically only available to intelligence agencies. Rumor has it that there are exceptions, but they come at an exceptionally high cost."
+                },
+                {
+                    content: "Dossier Center is confident that Tsalikov's accounts were accessed without authorization for an extended period, though it can't be independently confirmed that his iPhone was directly hacked. While the center won't reveal its sources, the evidence, like the authentic Apple warning message meant for Tsalikov and obtained by Dossier, speaks for itself.<br><br>The center has also reliably established through multiple trustworthy sources that the email ruslantsalikov@ya.ru belonged to mr. Tsalikov himself."
+                },
+                {
+                    content: "Who is this guy and why do we care? Fair question. Tsalikov was perhaps former Russian military minister Shoigu's closest confidant. In every agency & entity led by Shoigu, be it the Emergencies Ministry, Moscow Region, or Defense Ministry, he entrusted Tsalikov with the most crucial matters-money and Shoigu's beloved PR."
+                },
+                {
+                    content: "Tsalikov's official Defense Ministry purview included finances, construction & repairs, troop housing, asset management, legal work, military medicine & information policy. Unofficially, from-1999, he handled Shoigu's personal PR & image-making, always loyal but never seeking the spotlight himself.<br><br>So, there's no doubt that his actions offer a glimpse into the state of affairs at the heart of Putin's military establishment and the regime as a whole."
+                },
+                 {
+                    content: "Almost all offices in the Ministry of Defense's central headquarters, according to Dossier's sources, are \"categorized-designated for working with classified documents. This means they've undergone special certification that confirmed it's safe to work with secrets there: no enemy can eavesdrop.<br><br>And the rules were crystal clear: NO personal devices in secure areas. Smartphones must be surrendered at entry. Special encrypted phones were issued for official use. Yet Tsalikov and his staff openly flouted every security protocol. Yet, here's a photo from 2014: Tsalikov's iPhone sitting on his desk in his CLASSIFIED office, next to secure government phones and sensitive documents."
+                },
+                {
+                    content: "His subordinates carried \"second phones\" that bypassed security. They used WhatsApp for work communications. The phone storage boxes were \"only for simple mortals,\" Dossier sources say...<br><br>The rot went deeper. In 2020, Tsalikov was caught sending files via Yandex Disk (analogue of Google Drive) from his iPhone to official military email addresses. Secret military construction plans ended up on civilian contractor servers. Nuclear facility blueprints leaked to international media (Danwatch, Der Spiegel)."
+                },
+                {
+                    content: "Even after Russia banned iPhones in government offices in March 2023-claiming they were vulnerable to Western intelligence-Tsalikov kept using his. He only switched to Samsung on April 30, after paying for crossword subscriptions from his iPhone days earlier."
+                },
+                {
+                    content: "The fallout: Three deputy defense ministers from Shoigu's team are now under arrest-Timur Ivanov, Dmitry Bulgakov, Pavel Popov. Tsalikov avoided prosecution and landed softly in Tyva's regional parliament. But his expected promotion to Senate mysteriously fell through after 8 months."
+                },
+                {
+                    content: "Maybe it has something to do with the damning pattern: every major leak-construction plans, property deals with Prigozhin/Wagner Group, nuclear blueprints-came from departments under Tsalikov's direct control. It was systematic rot at the highest level."
+                },
+                {
+                    content: "It's ironic that the man protecting Russia's defense secrets couldn't even protect his own iPhone. And this is who Putin trusted with his war machine. This is what Putin's \"superpower\" looks like in 2025."
+                }
+            ];
+
+            const threadContainer = document.getElementById('thread-container');
+
+            function renderPosts() {
+                threadContainer.innerHTML = '';
+                posts.forEach((post, index) => {
+                    const postElement = document.createElement('div');
+                    postElement.className = 'bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md border border-gray-200 dark:border-gray-700 transition-shadow duration-300 hover:shadow-lg';
+                    
+                    let headerHTML = '';
+                    if (post.author) {
+                        headerHTML = `
+                        <div class="flex items-center mb-3">
+                            <img src="${post.avatar}" alt="Avatar" class="w-12 h-12 rounded-full mr-4" onerror="this.onerror=null;this.src='https://placehold.co/48x48/1f2937/ffffff?text=DC';">
+                            <div>
+                                <h3 class="font-bold text-lg text-gray-800 dark:text-white">${post.author}</h3>
+                                <p class="text-sm text-gray-500 dark:text-gray-400">@${post.handle}</p>
+                            </div>
+                        </div>`;
+                    } else {
+                        postElement.classList.add('pl-10', 'relative');
+                        postElement.innerHTML += '<div class="absolute left-6 top-0 bottom-0 w-0.5 bg-gray-300 dark:bg-gray-600"></div>';
+                    }
+
+                    postElement.innerHTML += `
+                        ${headerHTML}
+                        <div class="text-base leading-relaxed text-gray-800 dark:text-gray-200" contenteditable="true">
+                            ${post.content}
+                        </div>
+                        <div class="mt-4 flex items-center justify-between text-gray-500 dark:text-gray-400">
+                            <div class="flex space-x-4">
+                                <svg class="w-5 h-5 cursor-pointer hover:text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6"></path></svg>
+                                <svg class="w-5 h-5 cursor-pointer hover:text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h5M20 20v-5h-5M4 4l16 16M20 4L4 20"></path></svg>
+                                <svg class="w-5 h-5 cursor-pointer hover:text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
+                            </div>
+                            <span class="text-sm font-medium">${index + 1} / ${posts.length}</span>
+                        </div>
+                    `;
+                    threadContainer.appendChild(postElement);
+                });
+            }
+
+            renderPosts();
+
+            const copyButton = document.getElementById('copyButton');
+            const copyFeedback = document.getElementById('copy-feedback');
+
+            copyButton.addEventListener('click', () => {
+                const editableContent = threadContainer.querySelectorAll('[contenteditable="true"]');
+                let fullThreadText = '';
+
+                editableContent.forEach((el, index) => {
+                    const text = el.innerHTML.replace(/<br\s*[\/]?>/gi, "\n");
+                    const plainText = new DOMParser().parseFromString(text, 'text/html').body.textContent || "";
+                    fullThreadText += `[${index + 1}/${posts.length}]\n${plainText}\n\n`;
+                });
+
+                const textArea = document.createElement('textarea');
+                textArea.value = fullThreadText.trim();
+                textArea.style.position = 'fixed';
+                textArea.style.opacity = 0;
+                document.body.appendChild(textArea);
+                textArea.focus();
+                textArea.select();
+
+                try {
+                    const successful = document.execCommand('copy');
+                    if(successful) {
+                        copyFeedback.style.display = 'block';
+                        setTimeout(() => {
+                            copyFeedback.style.display = 'none';
+                        }, 2000);
+                    } else {
+                        console.error('Fallback: Oops, unable to copy');
+                        alert('Could not copy text.');
+                    }
+                } catch (err) {
+                    console.error('Fallback: Oops, unable to copy', err);
+                    alert('Could not copy text.');
+                }
+                
+                document.body.removeChild(textArea);
+            });
+        });
+    </script>
+</body>
+</html>
