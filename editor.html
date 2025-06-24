@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thread Editor</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+</head>
+<body class="bg-gray-100 p-4">
+    <div class="max-w-4xl mx-auto">
+        <div class="flex justify-between items-center mb-4">
+            <h1 class="text-2xl font-bold">Thread Editor</h1>
+            <button id="export" class="bg-green-600 text-white px-3 py-1 rounded">Copy for Notion</button>
+        </div>
+        <div id="posts" class="space-y-4"></div>
+        <button id="addPost" class="mt-4 bg-blue-600 text-white px-4 py-2 rounded">Add Post</button>
+    </div>
+
+<script>
+const firebaseConfig = {
+    // TODO: replace with your config
+};
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+const auth = firebase.auth();
+auth.signInAnonymously();
+
+const params = new URLSearchParams(location.search);
+const threadId = params.get('id');
+const postsDiv = document.getElementById('posts');
+
+function postHTML(id, data) {
+    return `<div class="grid grid-cols-2 gap-2" data-id="${id}">
+        <div contenteditable class="border p-2" data-field="en">${data.en || ''}</div>
+        <div contenteditable class="border p-2" data-field="ru">${data.ru || ''}</div>
+        <button class="col-span-2 text-red-600 delete">Delete</button>
+    </div>`;
+}
+
+function savePost(el) {
+    const id = el.dataset.id;
+    const en = el.querySelector('[data-field="en"]').innerHTML;
+    const ru = el.querySelector('[data-field="ru"]').innerHTML;
+    db.collection('threads').doc(threadId).collection('posts').doc(id)
+        .set({en, ru}, {merge: true});
+}
+
+if(threadId) {
+    db.collection('threads').doc(threadId).collection('posts').orderBy('index').onSnapshot(snap => {
+        postsDiv.innerHTML = '';
+        snap.forEach(doc => {
+            const el = document.createElement('div');
+            el.innerHTML = postHTML(doc.id, doc.data());
+            postsDiv.appendChild(el.firstChild);
+        });
+    });
+}
+
+document.getElementById('addPost').onclick = async () => {
+    const ref = await db.collection('threads').doc(threadId).collection('posts').add({en:'',ru:'', index:Date.now()});
+};
+
+postsDiv.addEventListener('input', (e) => {
+    const wrapper = e.target.closest('[data-id]');
+    if(wrapper) savePost(wrapper);
+});
+
+postsDiv.addEventListener('click', (e) => {
+    if(e.target.classList.contains('delete')) {
+        const wrapper = e.target.closest('[data-id]');
+        db.collection('threads').doc(threadId).collection('posts').doc(wrapper.dataset.id).delete();
+    }
+});
+
+document.getElementById('export').onclick = () => {
+    let text = '';
+    postsDiv.querySelectorAll('[data-id]').forEach((el, i) => {
+        const en = el.querySelector('[data-field="en"]').innerText;
+        const ru = el.querySelector('[data-field="ru"]').innerText;
+        text += `${i+1}. ${en}\n${ru}\n\n`;
+    });
+    navigator.clipboard.writeText(text);
+    alert('Copied!');
+};
+</script>
+</body>
+</html>
