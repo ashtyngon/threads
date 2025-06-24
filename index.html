@@ -11,10 +11,14 @@
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 </head>
 <body class="bg-gray-100 p-4">
+    <nav class="bg-gray-800 text-white p-4 mb-6">
+        <div class="max-w-3xl mx-auto">
+            <h1 class="text-lg font-semibold">Thread Archive</h1>
+        </div>
+    </nav>
     <div class="max-w-3xl mx-auto">
-        <h1 class="text-3xl font-bold mb-4">Thread Archive</h1>
         <div id="threads" class="space-y-2"></div>
-        <button id="newThread" class="mt-4 bg-blue-600 text-white px-4 py-2 rounded">New Thread</button>
+        <button id="newThread" class="mt-4 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded">New Thread</button>
     </div>
 
     <script>

@@ -11,13 +11,18 @@
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 </head>
 <body class="bg-gray-100 p-4">
+    <nav class="bg-gray-800 text-white p-4 mb-6">
+        <div class="max-w-4xl mx-auto">
+            <a href="index.html" class="font-semibold">&larr; Back to Archive</a>
+        </div>
+    </nav>
     <div class="max-w-4xl mx-auto">
         <div class="flex justify-between items-center mb-4">
             <h1 class="text-2xl font-bold">Thread Editor</h1>
-            <button id="export" class="bg-green-600 text-white px-3 py-1 rounded">Copy for Notion</button>
+            <button id="export" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded">Copy for Notion</button>
         </div>
         <div id="posts" class="space-y-4"></div>
-        <button id="addPost" class="mt-4 bg-blue-600 text-white px-4 py-2 rounded">Add Post</button>
+        <button id="addPost" class="mt-4 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded">Add Post</button>
     </div>
 
 <script>
@@ -34,10 +39,10 @@ const threadId = params.get('id');
 const postsDiv = document.getElementById('posts');
 
 function postHTML(id, data) {
-    return `<div class="grid grid-cols-2 gap-2" data-id="${id}">
-        <div contenteditable class="border p-2" data-field="en">${data.en || ''}</div>
-        <div contenteditable class="border p-2" data-field="ru">${data.ru || ''}</div>
-        <button class="col-span-2 text-red-600 delete">Delete</button>
+    return `<div class="grid grid-cols-1 md:grid-cols-2 gap-4 bg-white p-4 rounded shadow" data-id="${id}">
+        <div contenteditable class="border rounded p-3" data-field="en">${data.en || ''}</div>
+        <div contenteditable class="border rounded p-3" data-field="ru">${data.ru || ''}</div>
+        <button class="md:col-span-2 bg-red-500 hover:bg-red-600 text-white py-1 px-3 rounded mt-2 delete">Delete</button>
     </div>`;
 }
 
